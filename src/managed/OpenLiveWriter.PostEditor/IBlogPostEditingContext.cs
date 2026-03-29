@@ -11,6 +11,7 @@ namespace OpenLiveWriter.PostEditor
     public interface IBlogPostEditingContext
     {
         string BlogId { get; }
+        void UpdateBlogId(string blogId);
         BlogPost BlogPost { get; }
         BlogPostSupportingFileStorage SupportingFileStorage { get; }
         string ServerSupportingFileDirectory { get; }
@@ -59,6 +60,11 @@ namespace OpenLiveWriter.PostEditor
             get { return _blogId; }
         }
         private string _blogId;
+
+        public void UpdateBlogId(string blogId)
+        {
+            _blogId = blogId;
+        }
 
         public PostEditorFile LocalFile
         {

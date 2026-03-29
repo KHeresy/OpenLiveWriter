@@ -118,6 +118,11 @@ namespace OpenLiveWriter.PostEditor
             get { return SupportingFileService; }
         }
 
+        void IBlogPostEditingContext.UpdateBlogId(string blogId)
+        {
+            SetCurrentBlog(blogId);
+        }
+
         PostEditorFile IBlogPostEditingContext.LocalFile
         {
             get
@@ -480,8 +485,39 @@ namespace OpenLiveWriter.PostEditor
             string blogId = editingContext.BlogId;
             if (!BlogSettings.BlogIdIsValid(blogId))
             {
-                blogId = BlogSettings.DefaultBlogId;
-                resetPostId = true;
+                if (BlogSettings.GetBlogs(false).Length > 0)
+                {
+                    using (SelectBlogDialog dialog = new SelectBlogDialog(blogId))
+                    {
+                        if (dialog.ShowDialog(_mainFrameWindow as IWin32Window) == DialogResult.OK)
+                        {
+                            blogId = dialog.SelectedBlogId;
+                            editingContext.UpdateBlogId(blogId);
+                            // Rewrite the file immediately
+                            if (editingContext.LocalFile.IsSaved)
+                            {
+                                try
+                                {
+                                    editingContext.LocalFile.SaveBlogPost(editingContext);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Trace.WriteLine("Failed to rewrite .wpost file with new blog ID: " + ex.Message);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            blogId = BlogSettings.DefaultBlogId;
+                            resetPostId = true;
+                        }
+                    }
+                }
+                else
+                {
+                    blogId = BlogSettings.DefaultBlogId;
+                    resetPostId = true;
+                }
             }
 
             // initialize state

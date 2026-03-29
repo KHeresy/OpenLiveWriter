@@ -498,6 +498,9 @@
     <Compile Include="OpenPost\SelectPostLinkForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="SelectBlogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ContentSources\IPublishTimeWorker.cs" />
     <Compile Include="ContentSources\SmartContentWorker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
