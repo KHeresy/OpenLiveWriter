@@ -725,7 +725,7 @@ namespace OpenLiveWriter.PostEditor
             if (String.IsNullOrEmpty(postTitle) || postTitle.Trim().Length == 0)
                 postTitle = isPage ? PostInfo.UntitledPage : PostInfo.UntitledPost;
 
-            return Path.ChangeExtension(FileHelper.GetValidFileName(postTitle), Extension);
+            return FileHelper.GetValidFileName(postTitle) + Extension;
         }
 
         private class FileInfoByModifiedDateComparer : IComparer
