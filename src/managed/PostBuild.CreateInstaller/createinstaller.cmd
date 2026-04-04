@@ -4,6 +4,10 @@ PUSHD "%~dp0..\..\..\"
 
 CALL getversion.cmd
 
+IF NOT "%~1" == "" (
+  set OLW_CONFIG=%~1
+)
+
 IF "%OLW_CONFIG%" == "" (
   echo %%OLW_CONFIG%% not set, will default to 'Debug'
   set OLW_CONFIG=Debug
@@ -30,3 +34,4 @@ ECHO Created Writer Chocolatey Package
 :end
 
 POPD
+
