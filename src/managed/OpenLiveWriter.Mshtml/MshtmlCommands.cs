@@ -187,7 +187,7 @@ namespace OpenLiveWriter.Mshtml
         /// <param name="cmdID"></param>
         private void AddCommand(uint cmdID, bool useNullOutputParam)
         {
-            Add(cmdID, new MshtmlCommandFromCoreSet(cmdID, commandTarget, useNullOutputParam));
+            this[cmdID] = new MshtmlCommandFromCoreSet(cmdID, commandTarget, useNullOutputParam);
         }
 
         /// <summary>
