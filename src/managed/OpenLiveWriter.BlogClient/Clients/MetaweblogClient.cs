@@ -907,15 +907,14 @@ namespace OpenLiveWriter.BlogClient.Clients
         {
             if (post.HasDatePublishedOverride && Options.SupportsCustomDate)
             {
-                // post.DatePublishedOverride is local time from the UI date picker
-                DateTime localDate = post.DatePublishedOverride;
-                DateTime utcDate = DateTimeHelper.LocalToUtc(localDate);
+                DateTime date = post.DatePublishedOverride;
 
-                // dateCreated: send local time if the server expects it, otherwise UTC
-                DateTime dateCreated = Options.UseLocalTime ? localDate : utcDate;
+                DateTime utcDate = date;
+                if (Options.UseLocalTime)
+                    date = DateTimeHelper.UtcToLocal(date);
 
                 string format = Options.PostDateFormat;
-                members.Add(new XmlRpcMember("dateCreated", new XmlRpcFormatTime(dateCreated, format)));
+                members.Add(new XmlRpcMember("dateCreated", new XmlRpcFormatTime(date, format)));
                 members.Add(new XmlRpcMember("date_created_gmt", new XmlRpcFormatTime(utcDate, format)));
             }
         }
